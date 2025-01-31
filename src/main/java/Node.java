@@ -18,6 +18,9 @@ public class Node {
 
         Scanner scanner = new Scanner(System.in);//scanner object created
         String command;//will hold the command entered by the user
+        String[] tasks = new String[100];
+        int taskcounter = 0;
+
 
         // continuously ask for input until the user types "bye"
         while (true) {
@@ -30,11 +33,21 @@ public class Node {
                 break;
             } // If user enters "bye", exit the loop
 
+            if (command.equals("list")) {
+                System.out.println("____________________________________________________________");
 
-            // Echo the command entered by the user
-            System.out.println("____________________________________________________________");
-            System.out.println(command);
-            System.out.println("____________________________________________________________");
+                for (int i = 0; i < taskcounter; i++) {
+                    System.out.println((i + 1) + (":") + tasks[i]);
+                }
+                System.out.println("____________________________________________________________");
+
+            } else {
+                tasks[taskcounter] = command; // Add the task to the array
+                taskcounter++; // Increment task count
+                System.out.println("____________________________________________________________");
+                System.out.println("added: " + command);
+                System.out.println("____________________________________________________________");
+            }
         }
 
         // Close the scanner
