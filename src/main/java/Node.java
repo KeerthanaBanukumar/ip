@@ -1,6 +1,5 @@
-import java.util.Scanner; //read inputs
+import java.util.Scanner;
 
-//level 0
 public class Node {
     public static void main(String[] args) {
         // Display the logo and introduction
@@ -16,15 +15,12 @@ public class Node {
         System.out.println("What can I do for you?");
         System.out.println("____________________________________________________________");
 
-        Scanner scanner = new Scanner(System.in);//scanner object created
-        String command;//will hold the command entered by the user
-        String[] tasks = new String[100];
-        int taskcounter = 0;
-
+        Scanner scanner = new Scanner(System.in); // scanner object created
+        TaskList taskList = new TaskList(); // TaskList object to manage tasks
 
         // continuously ask for input until the user types "bye"
         while (true) {
-            command = scanner.nextLine();
+            String command = scanner.nextLine();
 
             if (command.equals("bye")) {
                 System.out.println("____________________________________________________________");
@@ -35,15 +31,30 @@ public class Node {
 
             if (command.equals("list")) {
                 System.out.println("____________________________________________________________");
-
-                for (int i = 0; i < taskcounter; i++) {
-                    System.out.println((i + 1) + (":") + tasks[i]);
-                }
+                taskList.listTasks();
                 System.out.println("____________________________________________________________");
+            }
 
-            } else {
-                tasks[taskcounter] = command; // Add the task to the array
-                taskcounter++; // Increment task count
+            else if (command.startsWith("mark")) {
+                int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1; // Get task number
+                taskList.markTask(taskIndex); // Mark the task as done
+                System.out.println("____________________________________________________________");
+                System.out.println("Nice! I've marked this task as done: ");
+                System.out.println(taskList.getTask(taskIndex));
+                System.out.println("____________________________________________________________");
+            }
+
+            else if (command.startsWith("unmark")) {
+                int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1; // Get task number
+                taskList.unmarkTask(taskIndex); // Unmark the task
+                System.out.println("____________________________________________________________");
+                System.out.println("OK, I've marked this task as not done yet: ");
+                System.out.println(taskList.getTask(taskIndex));
+                System.out.println("____________________________________________________________");
+            }
+
+            else {
+                taskList.addTask(command); // Add the task to the list
                 System.out.println("____________________________________________________________");
                 System.out.println("added: " + command);
                 System.out.println("____________________________________________________________");
