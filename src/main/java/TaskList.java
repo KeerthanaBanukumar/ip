@@ -8,9 +8,9 @@ public class TaskList {
         taskCounter = 0;
     }
 
-
-    public void addTask(String description) {
-        tasks[taskCounter] = new Task(description);
+    // Modify this method to accept Task objects
+    public void addTask(Task task) {
+        tasks[taskCounter] = task;
         taskCounter++;
     }
 
@@ -37,5 +37,9 @@ public class TaskList {
             return tasks[index];
         }
         return null;
+    }
+
+    public int taskCount(){
+       return taskCounter;
     }
 }

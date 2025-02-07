@@ -14,7 +14,7 @@ public class Task {
     }
 
     public boolean isDone() {
-        return isDone; //allows other classes to retrieve the status of tasks
+        return isDone;
     }
 
     public void markAsDone() {
