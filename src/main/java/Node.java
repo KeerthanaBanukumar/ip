@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 
 public class Node {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NodeException {
         // Display the logo and introduction
         String logo = " _   _           _     \n"
                 + "| \\ | | ___   __| | ___ \n"
@@ -21,9 +21,10 @@ public class Node {
 
         // continuously ask for input until the user types "bye"
         while (true) {
-            String command = scanner.nextLine();
+            try {
+                String command = scanner.nextLine().trim();
 
-            if (command.equals("bye")) {
+                if (command.equals("bye")) {
                 System.out.println("____________________________________________________________");
                 System.out.println("Bye. Hope to see you again soon!");
                 System.out.println("____________________________________________________________");
@@ -37,7 +38,11 @@ public class Node {
             }
 
             else if (command.startsWith("mark")) {
-                int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1; // Get task number
+                String[] parts = command.split(" ");
+                if (parts.length < 2) {
+                    throw new NodeException("OOPS!!! Please provide a task number to mark.");
+                }
+                int taskIndex = Integer.parseInt(parts[1]) - 1;
                 taskList.markTask(taskIndex); // Mark the task as done
                 System.out.println("____________________________________________________________");
                 System.out.println("Nice! I've marked this task as done: ");
@@ -46,6 +51,11 @@ public class Node {
             }
 
             else if (command.startsWith("unmark")) {
+                String[] parts = command.split(" ");
+                if (parts.length < 2) {
+                    throw new NodeException("OOPS!!! Please provide a task number to unmark.");
+                }
+
                 int taskIndex = Integer.parseInt(command.split(" ")[1]) - 1; // Get task number
                 taskList.unmarkTask(taskIndex); // Unmark the task
                 System.out.println("____________________________________________________________");
@@ -57,6 +67,8 @@ public class Node {
             else if (command.startsWith("deadline")) {
 
                 String[] parts = command.split("/by");
+
+
 
                 if (parts.length == 2) {
                     String description = parts[0].substring(9).trim(); // Get description by removing "deadline " (9 chars)
@@ -80,9 +92,21 @@ public class Node {
 
                 String[] parts = command.split("/from");
 
+                if (parts.length < 2) {
+                    throw new NodeException("OOPS!!! Event task format: event <description> /from <start> /to <end>");
+                }
+
+                String description = parts[0].substring(6).trim();
+                if (description.isEmpty()) {
+                    throw new NodeException("OOPS!!! The description of an event cannot be empty.");
+                }
+
                 if (parts.length == 2) {
-                    String description = parts[0].substring(6).trim();  // Remove "event " (6 chars) to get the description
+                   // String description = parts[0].substring(6).trim();  // Remove "event " (6 chars) to get the description
                     String[] fromToParts = parts[1].split("/to");
+                    if (fromToParts.length < 2) {
+                        throw new NodeException("OOPS!!! Event must have a start (/from) and end (/to) time.");
+                    }
 
                     if (fromToParts.length == 2) {
                         String from = fromToParts[0].trim();
@@ -107,6 +131,10 @@ public class Node {
 
                 String description = command.substring(5).trim();  // Get the description by removing "todo " (5 chars)
 
+                if (description.isEmpty()) {
+                    throw new NodeException("OOPS!!! The description of a todo cannot be empty.");
+                }
+
                 Todo todo = new Todo(description);  // Create a Todo task
                 taskList.addTask(todo);  // Add the Todo task to the task list
 
@@ -119,19 +147,26 @@ public class Node {
                 System.out.println("____________________________________________________________");
             }
 
-            else {
-                String description = command.trim();  // Treat the entire command as a description
-                Task genericTask = new Task(description) {};  // Create a generic Task (abstract class needs implementation)
-                taskList.addTask(genericTask);  // Add the generic task to the list
 
+            else {
+                throw new NodeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+            }
+
+            } catch (NodeException e) {
                 System.out.println("____________________________________________________________");
-                System.out.println("added: " + description);
-                System.out.println("Now you have " + taskList.taskCount() + " tasks in the list.");
+                System.out.println(e.getMessage());
+                System.out.println("____________________________________________________________");
+            } catch (NumberFormatException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println("OOPS!!! Task number must be a valid integer.");
+                System.out.println("____________________________________________________________");
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("____________________________________________________________");
+                System.out.println("OOPS!!! Task number is out of range.");
                 System.out.println("____________________________________________________________");
             }
         }
 
-        // Close the scanner
         scanner.close();
     }
 }
