@@ -147,6 +147,17 @@ public class Node {
                 System.out.println("____________________________________________________________");
             }
 
+            else if (command.startsWith("delete")) {
+                try {
+                    int index = Integer.parseInt(command.split(" ")[1]);
+                    System.out.println("____________________________________________________________");
+                    taskList.deleteTask(index);
+                    System.out.println("____________________________________________________________");
+                } catch (Exception e) {
+                    System.out.println("Invalid command format. Usage: delete <task_number>");
+                }
+            }
+
 
             else {
                 throw new NodeException("OOPS!!! I'm sorry, but I don't know what that means :-(");

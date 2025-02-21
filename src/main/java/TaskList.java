@@ -1,45 +1,65 @@
+import java.util.ArrayList;
+
 public class TaskList {
-    private Task[] tasks;
-    private int taskCounter;
+    private ArrayList<Task> tasks;
 
-    //constructor
     public TaskList() {
-        tasks = new Task[100]; // Initialize with a fixed array size
-        taskCounter = 0;
+        tasks = new ArrayList<>();
     }
 
-    // Modify this method to accept Task objects
     public void addTask(Task task) {
-        tasks[taskCounter] = task;
-        taskCounter++;
-    }
-
-    public void markTask(int taskIndex) {
-        if (taskIndex >= 0 && taskIndex < taskCounter) {
-            tasks[taskIndex].markAsDone();
-        }
-    }
-
-    public void unmarkTask(int taskIndex) {
-        if (taskIndex >= 0 && taskIndex < taskCounter) {
-            tasks[taskIndex].unmark();
-        }
+        tasks.add(task);
+        System.out.println("Added: " + task);
     }
 
     public void listTasks() {
-        for (int i = 0; i < taskCounter; i++) {
-            System.out.println((i + 1) + ": " + tasks[i]);
+        if (tasks.isEmpty()) {
+            System.out.println("Your task list is empty!");
+            return;
+        }
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + ": " + tasks.get(i));
         }
     }
 
+    public void deleteTask(int index) {
+        if (index < 1 || index > tasks.size()) {
+            System.out.println("Invalid task number!");
+            return;
+        }
+        Task removedTask = tasks.remove(index - 1);
+        System.out.println("Noted. I've removed this task:\n  " + removedTask);
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+    }
+
+    public void markTask(int index) {
+        if (index >= 1 && index <= tasks.size()) {
+            tasks.get(index - 1).markAsDone();
+        } else {
+            System.out.println("Invalid task number!");
+        }
+    }
+
+    public void unmarkTask(int index) {
+        if (index >= 1 && index <= tasks.size()) {
+            tasks.get(index - 1).unmark();
+        } else {
+            System.out.println("Invalid task number!");
+        }
+    }
+
+    public int getTaskCount() {
+        return tasks.size();
+    }
+
     public Task getTask(int index) {
-        if (index >= 0 && index < taskCounter) {
-            return tasks[index];
+        if (index >= 1 && index <= tasks.size()) {
+            return tasks.get(index - 1);
         }
         return null;
     }
 
-    public int taskCount(){
-       return taskCounter;
+    public ArrayList<Task> getAllTasks() {
+        return tasks;
     }
 }
