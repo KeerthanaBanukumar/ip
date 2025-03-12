@@ -1,60 +1,3 @@
-/*import java.util.ArrayList;
-
-public class TaskList {
-    private ArrayList<Task> tasks;
-
-    // Constructor
-    public TaskList() {
-        tasks = new ArrayList<>();
-    }
-
-    // Modify this method to accept Task objects
-    public void addTask(Task task) {
-        tasks.add(task);
-    }
-
-    public void markTask(int taskIndex) {
-        if (taskIndex >= 0 && taskIndex < tasks.size()) {
-            tasks.get(taskIndex).markAsDone();
-        }
-    }
-
-    public void unmarkTask(int taskIndex) {
-        if (taskIndex >= 0 && taskIndex < tasks.size()) {
-            tasks.get(taskIndex).unmark();
-        }
-    }
-
-    public void listTasks() {
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ": " + tasks.get(i));
-        }
-    }
-
-    public Task getTask(int index) {
-        if (index >= 0 && index < tasks.size()) {
-            return tasks.get(index);
-        }
-        return null;
-    }
-
-    public int taskCount() {
-        return tasks.size();
-    }
-
-
-    public void deleteTask(int index) {
-        if (index < 1 || index > tasks.size()) {
-            System.out.println("Invalid task number!");
-            return;
-        }
-        Task removedTask = tasks.remove(index - 1);
-        System.out.println("Noted. I've removed this task:\n  " + removedTask);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-    }
-
-}*/
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,6 +45,24 @@ public class TaskList {
         tasks.get(index).markAsNotDone();
         System.out.println("OK, I've marked this task as not done yet:");
         System.out.println(tasks.get(index));
+    }
+
+    public void findTask(String keyword) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                matchingTasks.add(task);
+            }
+        }
+
+        if (matchingTasks.isEmpty()) {
+            System.out.println("No tasks matching the keyword \"" + keyword + "\" found.");
+        } else {
+            System.out.println("Here are the matching tasks in your list:");
+            for (int i = 0; i < matchingTasks.size(); i++) {
+                System.out.println((i + 1) + ". " + matchingTasks.get(i));
+            }
+        }
     }
 
     public void deleteTask(int index) throws NodeException {

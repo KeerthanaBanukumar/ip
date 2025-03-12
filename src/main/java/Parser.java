@@ -39,6 +39,13 @@ public class Parser {
             tasks.deleteTask(Integer.parseInt(parts[1]) - 1);
             break;
 
+        case "find":
+            if (parts.length < 2) {
+                throw new NodeException("Please provide a keyword to search for.");
+            }
+            tasks.findTask(parts[1]);
+            break;
+
         default:
             throw new NodeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
