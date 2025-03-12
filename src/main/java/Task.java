@@ -1,100 +1,88 @@
-/*public abstract class Task {
-    protected String description; // Holds the description of tasks
-    private boolean isDone; // Keeps track of whether the task is done or not
-
-    // Constructor
-    public Task(String description) {
-        this.description = description;
-        this.isDone = false; // By default, the task is not done.
-    }
-
-    // Getter methods
-    public String getDescription() {
-        return description; // Allows other classes to retrieve the description
-    }
-
-    public boolean isDone() {
-        return isDone;
-    }
-
-    public void markAsDone() {
-        this.isDone = true;
-    }
-
-    public void unmark() {
-        this.isDone = false;
-    }
-
-    public String getStatusIcon() {
-        return (isDone ? "1" : "0"); // "1" for done, "0" for not done
-    }
-
-    public abstract String toFileFormat(); // Abstract method for subclass-specific file formatting
-
-    @Override
-    public String toString() {
-        return (isDone ? "[X]" : "[ ]") + " " + description;
-    }
-
-    // Static method to create tasks from file data
-    public static Task fromFileString(String line) {
-        String[] parts = line.split(" \\| ");
-        if (parts.length < 3) {
-            throw new IllegalArgumentException("Invalid task format in file");
-        }
-
-        Task task = null;
-        switch (parts[0]) {
-        case "T":
-            task = Todo.fromFileString(line); // Delegate to Todo class
-            break;
-        case "D":
-            task = Deadline.fromFileString(line); // Delegate to Deadline class
-            break;
-        case "E":
-            task = Event.fromFileString(line); // Delegate to Event class
-            break;
-        default:
-            throw new IllegalArgumentException("Unknown task type");
-        }
-
-        if (parts[1].equals("1")) { // Mark the task as done if the status is "1"
-            task.markAsDone();
-        }
-
-        return task;
-    }
-}
-*/
-
+/**
+ * Abstract class representing a task in a task management system.
+ * This class contains common fields and methods for all types of tasks, such as a description and completion status.
+ */
 public abstract class Task {
+
+    /**
+     * The description of the task.
+     */
     protected String description;
+
+    /**
+     * The completion status of the task (true if done, false otherwise).
+     */
     protected boolean isDone;
 
+    /**
+     * Constructs a new Task with the given description and marks it as not done.
+     *
+     * @param description A brief description of the task.
+     */
     public Task(String description) {
         this.description = description;
         this.isDone = false;
     }
 
+    /**
+     * Gets the description of the task.
+     *
+     * @return The description of the task.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Marks the task as done.
+     */
     public void markAsDone() {
         isDone = true;
     }
 
+    /**
+     * Marks the task as not done.
+     */
     public void markAsNotDone() {
         isDone = false;
     }
 
+    /**
+     * Returns the status icon for the task. This is "[X]" if the task is done, and "[ ]" if it is not done.
+     *
+     * @return The status icon representing the task's completion status.
+     */
     public String getStatusIcon() {
         return (isDone ? "[X]" : "[ ]"); // Mark done tasks with an "X"
     }
 
-    public abstract String toFileString(); // Converts task to a savable format
+    /**
+     * Converts the task to a string that can be saved to a file.
+     * The exact format depends on the subclass.
+     *
+     * @return A string representation of the task in a format suitable for saving to a file.
+     */
+    public abstract String toFileString();
 
+    /**
+     * Returns a string representation of the task that includes its status and description.
+     * For example, "[X] Task description" or "[ ] Task description".
+     *
+     * @return A string representation of the task.
+     */
     @Override
     public String toString() {
         return getStatusIcon() + " " + description;
     }
 
+    /**
+     * Creates a Task object from a saved string representation.
+     * The string should be in the format: "<taskType> | <isDone> | <description> | <additionalFields>".
+     *
+     * @param line The string representation of the task.
+     * @return The Task object created from the string.
+     * @throws NodeException If the string is corrupted or the task type is unknown.
+     */
     public static Task fromString(String line) throws NodeException {
         String[] parts = line.split("\\|");
         if (parts.length < 3) {

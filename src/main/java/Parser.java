@@ -25,9 +25,7 @@ public class Parser {
             tasks.listTasks();
             break;
 
-        case "find":
-            tasks.findTasks(parts[1]);
-            break;
+
 
         case "mark":
             tasks.markTask(Integer.parseInt(parts[1]) - 1);
