@@ -1,3 +1,52 @@
+/*public class Deadline extends Task {
+    protected String by;
+
+    public Deadline(String description, String by) {
+        super(description);
+        this.by = by;
+    }
+
+    @Override
+    public String toFileFormat() {
+        return "D | " + getStatusIcon() + " | " + description + " | " + by;
+    }
+
+    @Override
+    public String toString() {
+        return "[D]" + super.toString() + " (by: " + by + ")";
+    }
+
+    // Static method to create a Deadline task from a file string
+    public static Deadline fromFileString(String line) {
+        String[] parts = line.split(" \\| ");
+        if (parts.length < 4) {
+            throw new IllegalArgumentException("Invalid Deadline format in file");
+        }
+        Deadline deadline = new Deadline(parts[2], parts[3]);
+        return deadline;
+    }
+}
+*/
+/*
+public class Deadline extends Task {
+    protected String by;
+
+    public Deadline(String description, String by) {
+        super(description);
+        this.by = by;
+    }
+
+    @Override
+    public String toFileString() {
+        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + by;
+    }
+
+    @Override
+    public String toString() {
+        return "[D] " + super.toString() + " (by: " + by + ")";
+    }
+}
+*/
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -5,13 +54,11 @@ import java.time.format.DateTimeParseException;
 public class Deadline extends Task {
     protected LocalDateTime by;
 
-    // Constructor for Deadline task, taking the description and deadline date/time as input
     public Deadline(String description, String by) {
         super(description);
         this.by = parseDateTime(by);
     }
 
-    // Helper method to parse date and time string into LocalDateTime object
     private LocalDateTime parseDateTime(String dateTime) {
         DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
         try {
@@ -22,14 +69,12 @@ public class Deadline extends Task {
         }
     }
 
-    // Override toString() method to display task in the desired format
     @Override
     public String toString() {
         DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mm a");
         return "[D]" + super.toString() + " (by: " + (by != null ? by.format(outputFormat) : "Invalid Date") + ")";
     }
 
-    // Override toFileString() to store task in a file-friendly format
     @Override
     public String toFileString() {
         DateTimeFormatter fileFormat = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
