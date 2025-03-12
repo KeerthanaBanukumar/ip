@@ -66,35 +66,75 @@
     }
 }
 */
-
+/**
+ * Abstract class representing a Task in the Node application.
+ * This class serves as a base for specific task types (e.g., Todo, Deadline, Event).
+ */
 public abstract class Task {
     protected String description;
     protected boolean isDone;
 
+    /**
+     * Constructs a Task with a description and marks it as not done.
+     *
+     * @param description The description of the task.
+     */
     public Task(String description) {
         this.description = description;
         this.isDone = false;
     }
 
+    /**
+     * Marks the task as done.
+     */
     public void markAsDone() {
         isDone = true;
     }
 
+    /**
+     * Marks the task as not done.
+     */
     public void markAsNotDone() {
         isDone = false;
     }
 
+    /**
+     * Returns the status icon of the task.
+     * "[X]" for done tasks and "[ ]" for tasks that are not done.
+     *
+     * @return The status icon as a string.
+     */
     public String getStatusIcon() {
         return (isDone ? "[X]" : "[ ]"); // Mark done tasks with an "X"
     }
 
+    /**
+     * Converts the task to a string format that can be saved to a file.
+     * The actual implementation depends on the specific task type (e.g., Todo, Deadline, Event).
+     *
+     * @return A string representing the task in a file-readable format.
+     */
     public abstract String toFileString(); // Converts task to a savable format
 
+    /**
+     * Returns a string representation of the task.
+     * Includes the status icon and the task description.
+     *
+     * @return A string representation of the task.
+     */
     @Override
     public String toString() {
         return getStatusIcon() + " " + description;
     }
 
+    /**
+     * Converts a string to a Task object based on the string format.
+     * The string should represent a task in the format of "<task type> | <status> | <description> | ...".
+     *
+     * @param line The string representing a task.
+     * @return The corresponding Task object.
+     * @throws NodeException If the string format is invalid or corrupted.
+     */
     public static Task fromString(String line) throws NodeException {
         String[] parts = line.split("\\|");
         if (parts.length < 3) {
@@ -104,6 +144,7 @@ public abstract class Task {
         boolean isDone = parts[1].trim().equals("1");
         Task task;
 
+        // Determine the task type and create the corresponding task object
         switch (parts[0]) {
         case "T":
             task = new Todo(parts[2].trim());
