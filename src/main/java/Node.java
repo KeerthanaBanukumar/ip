@@ -1,9 +1,15 @@
 import java.util.Scanner;
 
 
+
+
+
+/*import java.util.Scanner;
+
+
 public class Node {
     public static void main(String[] args) throws NodeException {
-        // Display the logo and introduction
+
         String logo = " _   _           _     \n"
                 + "| \\ | | ___   __| | ___ \n"
                 + "|  \\| |/ _ \\ / _` |/ _ \\\n"
@@ -19,6 +25,15 @@ public class Node {
         Scanner scanner = new Scanner(System.in); // scanner object created
         TaskList taskList = new TaskList(); // TaskList object to manage tasks
 
+        // File path for storing tasks
+        String filePath = "./data/Node.txt";
+        Storage storage = new Storage(filePath);
+
+        // Ensure the data folder exists
+        storage.createFolderIfNotExists();
+
+
+
         // continuously ask for input until the user types "bye"
         while (true) {
             try {
@@ -28,6 +43,7 @@ public class Node {
                 System.out.println("____________________________________________________________");
                 System.out.println("Bye. Hope to see you again soon!");
                 System.out.println("____________________________________________________________");
+
                 break;
             } // If user enters "bye", exit the loop
 
@@ -147,6 +163,16 @@ public class Node {
                 System.out.println("____________________________________________________________");
             }
 
+            else if (command.startsWith("delete")) {
+                String[] parts = command.split(" ");
+                if (parts.length < 2) {
+                    throw new NodeException("OOPS!!! Please provide a task number to delete.");
+                }
+                int taskIndex = Integer.parseInt(parts[1]) - 1;
+                taskList.deleteTask(taskIndex);
+            }
+
+
 
             else {
                 throw new NodeException("OOPS!!! I'm sorry, but I don't know what that means :-(");
@@ -170,3 +196,45 @@ public class Node {
         scanner.close();
     }
 }
+*/
+
+public class Node {
+    private Storage storage;
+    private TaskList tasks;
+    private Ui ui;
+    private Parser parser;
+
+    public Node(String filePath) {
+        ui = new Ui();
+        storage = new Storage(filePath);
+        parser = new Parser();
+
+        try {
+            tasks = new TaskList(storage.load());
+        } catch (NodeException e) {
+            ui.showLoadingError();
+            tasks = new TaskList();
+        }
+    }
+
+    public void run() {
+        ui.showWelcomeMessage();
+        boolean isRunning = true;
+
+        while (isRunning) {
+            try {
+                String input = ui.readCommand();
+                isRunning = parser.processCommand(input, tasks, ui, storage);
+            } catch (NodeException e) {
+                ui.showError(e.getMessage());
+            }
+        }
+
+        ui.showExitMessage();
+    }
+
+    public static void main(String[] args) {
+        new Node("data/Node.txt").run();
+    }
+}
+
