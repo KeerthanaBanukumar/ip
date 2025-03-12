@@ -197,13 +197,21 @@ public class Node {
     }
 }
 */
-
+/**
+ * The main class for running the task management application.
+ * This class initializes the necessary components and handles user input.
+ */
 public class Node {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
     private Parser parser;
 
+    /**
+     * Initializes the application by setting up UI, storage, parser, and task list.
+     *
+     * @param filePath The file path where tasks are stored.
+     */
     public Node(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -217,6 +225,10 @@ public class Node {
         }
     }
 
+    /**
+     * Runs the main event loop of the application.
+     * Continuously processes user input until the "bye" command is given.
+     */
     public void run() {
         ui.showWelcomeMessage();
         boolean isRunning = true;
@@ -233,8 +245,12 @@ public class Node {
         ui.showExitMessage();
     }
 
+    /**
+     * The main entry point of the application.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         new Node("data/Node.txt").run();
     }
 }
-
