@@ -69,6 +69,7 @@ public class TaskList {
         this.tasks = tasks;
     }
 
+
     public void addTask(Task task) {
         tasks.add(task);
         System.out.println("Got it. I've added this task:");
@@ -93,6 +94,21 @@ public class TaskList {
         tasks.get(index).markAsDone();
         System.out.println("Nice! I've marked this task as done:");
         System.out.println(tasks.get(index));
+    }
+
+
+    public void findTasks(String keyword) {
+        System.out.println("Here are the matching tasks in your list:");
+        int index = 1;
+        for (Task task : tasks) {
+            if (task.description().contains(keyword)) {
+                System.out.println(index + ". " + task);
+                index++;
+            }
+        }
+        if (index == 1) {
+            System.out.println("No matching tasks found.");
+        }
     }
 
     public void unmarkTask(int index) throws NodeException {
