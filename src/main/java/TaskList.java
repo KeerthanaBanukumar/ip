@@ -54,37 +54,21 @@ public class TaskList {
     }
 
 }*/
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Represents a list of tasks.
- * Provides methods to add, list, mark, unmark, and delete tasks from the list.
- */
 public class TaskList {
     private List<Task> tasks;
 
-    /**
-     * Constructs a TaskList with an empty task list.
-     */
     public TaskList() {
         tasks = new ArrayList<>();
     }
 
-    /**
-     * Constructs a TaskList with a given list of tasks.
-     *
-     * @param tasks The list of tasks to initialize the TaskList with.
-     */
     public TaskList(List<Task> tasks) {
         this.tasks = tasks;
     }
 
-    /**
-     * Adds a task to the task list.
-     *
-     * @param task The task to be added to the list.
-     */
     public void addTask(Task task) {
         tasks.add(task);
         System.out.println("Got it. I've added this task:");
@@ -92,10 +76,6 @@ public class TaskList {
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
     }
 
-    /**
-     * Lists all tasks in the task list.
-     * If the list is empty, it prints a message indicating no tasks are present.
-     */
     public void listTasks() {
         if (tasks.isEmpty()) {
             System.out.println("No tasks found.");
@@ -106,12 +86,6 @@ public class TaskList {
         }
     }
 
-    /**
-     * Marks the task at the specified index as done.
-     *
-     * @param index The index of the task to mark as done.
-     * @throws NodeException If the index is invalid.
-     */
     public void markTask(int index) throws NodeException {
         if (index < 0 || index >= tasks.size()) {
             throw new NodeException("Invalid task number.");
@@ -121,12 +95,6 @@ public class TaskList {
         System.out.println(tasks.get(index));
     }
 
-    /**
-     * Unmarks the task at the specified index as not done.
-     *
-     * @param index The index of the task to unmark.
-     * @throws NodeException If the index is invalid.
-     */
     public void unmarkTask(int index) throws NodeException {
         if (index < 0 || index >= tasks.size()) {
             throw new NodeException("Invalid task number.");
@@ -136,12 +104,6 @@ public class TaskList {
         System.out.println(tasks.get(index));
     }
 
-    /**
-     * Deletes the task at the specified index from the task list.
-     *
-     * @param index The index of the task to be deleted.
-     * @throws NodeException If the index is invalid.
-     */
     public void deleteTask(int index) throws NodeException {
         if (index < 0 || index >= tasks.size()) {
             throw new NodeException("Invalid task number.");
@@ -152,12 +114,8 @@ public class TaskList {
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
     }
 
-    /**
-     * Returns the list of tasks.
-     *
-     * @return The list of tasks in the TaskList.
-     */
     public List<Task> getTasks() {
         return tasks;
     }
 }
+

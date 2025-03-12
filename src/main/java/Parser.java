@@ -25,6 +25,10 @@ public class Parser {
             tasks.listTasks();
             break;
 
+        case "find":
+            tasks.findTasks(parts[1]);
+            break;
+
         case "mark":
             tasks.markTask(Integer.parseInt(parts[1]) - 1);
             break;
@@ -42,6 +46,7 @@ public class Parser {
             if (deadlineParts.length < 2) throw new NodeException("Invalid deadline format.");
             tasks.addTask(new Deadline(deadlineParts[0], deadlineParts[1]));
             break;
+
 
         case "event":
             String[] eventParts = parts[1].split(" /from | /to ");
